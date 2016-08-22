@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/qr_title_rl"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:visibility="gone"></RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/qr_bottom_rl"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone"></RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/capture_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/qr_bottom_rl"
+        android:layout_below="@+id/qr_title_rl">
+
+        <FrameLayout
+            android:id="@+id/capture_preview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <RelativeLayout
+            android:id="@+id/capture_crop_view"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/qr_zbar_code_bg">
+
+            <ImageView
+                android:id="@+id/capture_scan_line"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/qr_zbar_scan_line" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@+id/capture_crop_view"
+            android:layout_alignTop="@+id/capture_crop_view"
+            android:layout_toLeftOf="@+id/capture_crop_view"
+            android:background="#4f000000" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@+id/capture_crop_view"
+            android:layout_alignTop="@+id/capture_crop_view"
+            android:layout_toRightOf="@+id/capture_crop_view"
+            android:background="#4f000000" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/capture_crop_view"
+            android:background="#4f000000" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/capture_crop_view"
+            android:background="#4f000000" />
+    </RelativeLayout>
+</RelativeLayout>
