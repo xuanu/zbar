@@ -121,4 +121,16 @@ public final class CameraManager {
 	public Point getCameraResolution() {
 		return configManager.getCameraResolution();
 	}
+
+	public void enableFlashlight() {
+		Camera.Parameters parameters = camera.getParameters();
+		parameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+		camera.setParameters(parameters);
+	}
+
+	public void disableFlashlight() {
+		Camera.Parameters parameters = camera.getParameters();
+		parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+		camera.setParameters(parameters);
+	}
 }

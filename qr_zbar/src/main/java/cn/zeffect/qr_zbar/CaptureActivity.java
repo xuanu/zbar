@@ -3,16 +3,25 @@ package cn.zeffect.qr_zbar;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.hardware.Camera;
 import android.hardware.Camera.AutoFocusCallback;
 import android.hardware.Camera.PreviewCallback;
 import android.hardware.Camera.Size;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -21,6 +30,9 @@ import com.dtr.zbar.build.ZBarDecoder;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.security.PrivilegedAction;
+
+import cn.zeffect.qr_zbar.utils.ZbarUtils;
 
 
 public class CaptureActivity extends Activity {
@@ -39,9 +51,17 @@ public class CaptureActivity extends Activity {
     private boolean barcodeScanned = false;
     private boolean previewing = true;
     private RelativeLayout scanContainer;
+    private Button backBtn, gallaryBtn;
+    private CheckBox flashCb;
+    private static final int COLOR_DEFAULT = Color.parseColor("#5e99e7");
+    /**
+     * 相册返回
+     **/
+    private static final int REQUEST_CODE_GALLARY = 100;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //
         setContentView(R.layout.qr_zbar_activity_capture);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         findViewById();
@@ -53,8 +73,28 @@ public class CaptureActivity extends Activity {
         scanContainer = (RelativeLayout) findViewById(R.id.capture_container);
         scanCropView = (RelativeLayout) findViewById(R.id.capture_crop_view);
         scanLine = (ImageView) findViewById(R.id.capture_scan_line);
+        //返回
+        backBtn = (Button) findViewById(R.id.qr_zbar_back_btn);
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setResult(RESULT_CANCELED);
+                CaptureActivity.this.finish();
+            }
+        });
+        //灯光
+        flashCb = (CheckBox) findViewById(R.id.qr_zbar_flast_cb);
+        flashCb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (flashCb.isChecked()) {
+                    mCameraManager.enableFlashlight();
+                } else {
+                    mCameraManager.disableFlashlight();
+                }
+            }
+        });
     }
-
     private void initViews() {
         autoFocusHandler = new Handler();
         mCameraManager = new CameraManager(this);
@@ -63,11 +103,11 @@ public class CaptureActivity extends Activity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         mCamera = mCameraManager.getCamera();
-        mPreview = new CameraPreview(this, mCamera, previewCb, autoFocusCB);
-        scanPreview.addView(mPreview);
+        mPreview = new
+                CameraPreview(this, mCamera, previewCb, autoFocusCB);
 
+        scanPreview.addView(mPreview);
         TranslateAnimation animation = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, 0.0f, Animation.RELATIVE_TO_PARENT, 0.0f, Animation.RELATIVE_TO_PARENT, 0.0f, Animation.RELATIVE_TO_PARENT,
                 0.95f);
         animation.setDuration(3000);
