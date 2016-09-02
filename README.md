@@ -17,6 +17,6 @@ zbar的扫描二维码,个人觉得扫描速度很快的库
     }
 
 **2、代码中使用**  
-    去扫描页面：```startActivityForResult(new Intent(MainActivity.this, CaptureActivity.class), 99);```
-    取扫描结果：```String tempResult = data.getStringExtra(CaptureActivity.RESULT_DATA);```
+    去扫描页面：```startActivityForResult(new Intent(MainActivity.this, CaptureActivity.class), 99);```  
+    取扫描结果：```String tempResult = data.getStringExtra(CaptureActivity.RESULT_DATA);```  
    
